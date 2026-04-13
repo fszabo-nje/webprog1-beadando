@@ -1,59 +1,138 @@
-let users = []
+let students = []
+let editIndex = -1
 
-function renderUsers(){
+// fájl betöltése
+fetch("data/diak.txt")
+.then(res => res.text())
+.then(text => {
 
-    const app = document.getElementById("app")
+    const rows = text.trim().split("\n")
 
-    let html = `
-    <h2>Felhasználók</h2>
+    for(let i=1;i<rows.length;i++){
 
-    <input id="name" placeholder="Név">
-    <input id="age" placeholder="Kor">
-    <button onclick="addUser()">Hozzáadás</button>
+        const values = rows[i].split("\t")
 
-    <table border="1">
-    <tr>
-    <th>Név</th>
-    <th>Kor</th>
-    <th>Művelet</th>
-    </tr>
-    `
+        let student = {
+            id: values[0],
+            nev: values[1],
+            osztaly: values[2],
+            fiu: values[3]
+        }
 
-    users.forEach((user,index)=>{
-        html += `
-        <tr>
-        <td>${user.name}</td>
-        <td>${user.age}</td>
-        <td>
-        <button onclick="deleteUser(${index})">Törlés</button>
-        </td>
-        </tr>
-        `
-    })
+        students.push(student)
+    }
 
-    html += "</table>"
+    renderStudents()
+})
 
-    app.innerHTML = html
+
+// megjelenítés
+function renderStudents(){
+
+const app = document.getElementById("app")
+
+let html = `
+<h2>Diákok</h2>
+
+<h3>Új diák</h3>
+
+<input id="nev" placeholder="Név">
+<input id="osztaly" placeholder="Osztály">
+<select id="fiu">
+<option value="-1">Fiú</option>
+<option value="0">Lány</option>
+</select>
+
+<button onclick="addStudent()">Mentés</button>
+
+<br><br>
+
+<table border="1">
+<tr>
+<th>ID</th>
+<th>Név</th>
+<th>Osztály</th>
+<th>Nem</th>
+<th>Művelet</th>
+</tr>
+`
+
+students.forEach((student,index)=>{
+
+let nem = student.fiu == -1 ? "Fiú" : "Lány"
+
+html += `
+<tr>
+<td>${student.id}</td>
+<td>${student.nev}</td>
+<td>${student.osztaly}</td>
+<td>${nem}</td>
+
+<td>
+<button onclick="editStudent(${index})">Szerkeszt</button>
+<button onclick="deleteStudent(${index})">Törlés</button>
+</td>
+
+</tr>
+`
+
+})
+
+html += "</table>"
+
+app.innerHTML = html
 }
 
-function addUser(){
 
-    const name = document.getElementById("name").value
-    const age = document.getElementById("age").value
+// új diák
+function addStudent(){
 
-    users.push({
-        name:name,
-        age:age
-    })
+const nev = document.getElementById("nev").value
+const osztaly = document.getElementById("osztaly").value
+const fiu = document.getElementById("fiu").value
 
-    renderUsers()
+if(editIndex == -1){
+
+students.push({
+id: students.length + 1,
+nev: nev,
+osztaly: osztaly,
+fiu: fiu
+})
+
+}else{
+
+students[editIndex].nev = nev
+students[editIndex].osztaly = osztaly
+students[editIndex].fiu = fiu
+
+editIndex = -1
+
 }
 
-function deleteUser(index){
-
-    users.splice(index,1)
-
-    renderUsers()
+renderStudents()
 }
 
-renderUsers()
+
+// törlés
+function deleteStudent(index){
+
+students.splice(index,1)
+
+renderStudents()
+
+}
+
+
+// szerkesztés
+function editStudent(index){
+
+const student = students[index]
+
+document.getElementById("nev").value = student.nev
+document.getElementById("osztaly").value = student.osztaly
+document.getElementById("fiu").value = student.fiu
+
+editIndex = index
+
+}

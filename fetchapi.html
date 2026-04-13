@@ -5,20 +5,49 @@
 <meta charset="UTF-8">
 <title>Fetch API CRUD</title>
 <link rel="stylesheet" href="style.css">
+
+<script src="navbar.js" defer></script>
+<script src="fetchapi.js" defer></script>
+
 </head>
 
 <body>
 
-<div id="navbar"></div>
+<nav-bar></nav-bar>
 
 <h1>Fetch API CRUD alkalmazás</h1>
 
-<div id="fetch-app"></div>
+<div>
 
-<script src="navbar.js"></script>
+<input id="nev" placeholder="Név">
+<input id="osztaly" placeholder="Osztály">
 
-<nav-bar></nav-bar>
-<script src="fetch-crud.js"></script>
+<select id="fiu">
+<option value="-1">Fiú</option>
+<option value="0">Lány</option>
+</select>
+
+<button onclick="addStudent()">Hozzáadás</button>
+
+</div>
+
+<br>
+
+<table border="1">
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Név</th>
+<th>Osztály</th>
+<th>Nem</th>
+<th>Művelet</th>
+</tr>
+</thead>
+
+<tbody id="table"></tbody>
+
+</table>
 
 </body>
 </html>
