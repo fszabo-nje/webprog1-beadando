@@ -1,5 +1,23 @@
-fetch("navbar.html")
-.then(res => res.text())
-.then(data => {
-    document.getElementById("navbar").innerHTML = data
-})
+class NavBar extends HTMLElement {
+
+connectedCallback(){
+
+this.innerHTML = `
+<nav class="navbar">
+
+<a href="index.html">Főoldal</a>
+<a href="javascript.html">JavaScript CRUD</a>
+<a href="react.html">React CRUD</a>
+<a href="spa.html">SPA</a>
+<a href="fetchapi.html">Fetch API</a>
+<a href="axios.html">Axios</a>
+<a href="oojs.html">OOJS</a>
+
+</nav>
+`
+
+}
+
+}
+
+customElements.define("nav-bar", NavBar)
