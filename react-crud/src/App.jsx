@@ -10,7 +10,7 @@ const [editIndex,setEditIndex] = useState(-1)
 
 useEffect(()=>{
 
-fetch("/data/diak.txt")
+fetch("../../data/diak.txt")
 .then(res=>res.text())
 .then(text=>{
 
@@ -182,4 +182,4 @@ Törlés
 
 }
 
-export default Appcd
+export default App
